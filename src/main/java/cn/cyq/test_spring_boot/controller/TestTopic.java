@@ -37,7 +37,7 @@ public class TestTopic {
 		return jsonObject.toString();
 	}
 
-	//以流的方式提供下载文件（下载文件缺失）
+	//以流的方式提供下载文件
 	@RequestMapping(value={"/zzwyc"},method=RequestMethod.GET)  
 	public void testDownload(HttpServletResponse resp) throws IOException{  
 	  File file = new File("D:/test1.txt");
