@@ -1,27 +1,35 @@
 package cn.cyq.test_spring_boot.controller;
 
 import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.io.IOUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import cn.cyq.test_spring_boot.model.Score;
 import cn.cyq.test_spring_boot.model.Student;
 import cn.cyq.test_spring_boot.requestmodel.RequestBodyContent;
 import cn.cyq.test_spring_boot.requestmodel.TransferData;
 
 @RestController
-@RequestMapping(value = "/getStudent",produces = "application/json;charset=UTF-8") 
+@RequestMapping(value = "/getStudent") //,produces = "application/json;charset=UTF-8"
 public class TestPost {
 
-	//http://192.168.51.151:8080/getStudent/002   类型请求，"2"为参数
-	@RequestMapping(value = "/00{studentnum}",method = RequestMethod.POST)
+/*	http://192.168.51.151:8080/getStudent/002   类型请求，"2"为参数
+	使用@PathVariable来获取请求url中的参数
+	*/
+	@RequestMapping(value = "/00{studentnum}",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
 	public Student getStudent(@PathVariable String studentnum){
 		Student student = new Student();
 //		业务逻辑
@@ -36,7 +44,8 @@ public class TestPost {
 		return student;
 	}
 	
-	//http://192.168.51.151:8080/getStudent/01?studentnum=2   类型请求，"2"为参数
+/*	http://192.168.51.151:8080/getStudent/01?studentnum=2   类型请求，"2"为参数
+	使用@RequestParam来获取请求url中的参数*/
 	@RequestMapping(value = "/01",method = RequestMethod.POST)
 	public Student getStudent1(@RequestParam(value = "studentnum", required = true) String studentnum){
 		Student student = new Student();
@@ -52,10 +61,33 @@ public class TestPost {
 		return student;
 	}
 	
+/*	http://192.168.51.151:8080/getStudent/01    类型请求,表单提交方式
+ * 使用@ModelAttribute来获取表单提交的参数
+ * 参数：
+ * math：58
+ * english:66
+ * chinese:88
+ */
+	@RequestMapping(value = "/02",method = RequestMethod.POST)
+	public Student getStudent2(@ModelAttribute("Score") Score score){
+		Student student = new Student();
+//		业务逻辑
+		student.setAge("18");                                                
+		student.setBanji("2");
+		student.setGrade("1");
+		student.setName("小张" );
+		student.setSex("女");
+		student.getScore().setChinese(score.getChinese());
+		student.getScore().setEnglish(score.getEnglish());
+		student.getScore().setMath(score.getMath());
+		return student;
+	}
 	
-	//http://192.168.51.151:8080/getStudent/02类型请求,参数为json串
-	@RequestMapping(value = "/02", method = RequestMethod.POST)
-	public Student getStudent2(HttpServletRequest request,HttpServletResponse response) {
+	
+/*	http://192.168.51.151:8080/getStudent/02类型请求,参数为json串
+	使用HttpServletRequest获取请求数据，并转化为bean对象*/
+	@RequestMapping(value = "/03", method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+	public Student getStudent3(HttpServletRequest request,HttpServletResponse response) {
 		
 		RequestBodyContent requestBodyContent = new RequestBodyContent();
 		TransferData transferData = new TransferData();

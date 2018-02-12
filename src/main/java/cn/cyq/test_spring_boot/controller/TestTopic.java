@@ -40,11 +40,11 @@ public class TestTopic {
 	//以流的方式提供下载文件
 	@RequestMapping(value={"/zzwyc"},method=RequestMethod.GET)  
 	public void testDownload(HttpServletResponse resp) throws IOException{  
-	  File file = new File("D:/test1.txt");
+	  File file = new File("D:/yt.txt");
 //	  resp.setHeader("content-type", "application/octet-stream");
 //	  resp.setContentType("application/octet-stream");
 	  resp.setHeader("content-type", "text/plain");
-	  resp.setHeader("Content-Disposition", "attachment;filename=" + "test1.txt");
+	  resp.setHeader("Content-Disposition", "attachment;filename=" + "yt.txt");
 	  byte[] buff = new byte[1024];
 	  BufferedInputStream bis = null;
 	  OutputStream os = null;
@@ -57,8 +57,7 @@ public class TestTopic {
 		 int i = 0;
 		 while((i=bis.read(buff))  != -1){
 //			 将缓冲数据写入响应输出流
-//			 os.write(buff);//下载文件缺失		
-			
+//			 os.write(buff);//下载文件缺失					
 			 os.write(buff, 0, i);
 		 }
 		 os.flush();
@@ -66,8 +65,7 @@ public class TestTopic {
 		e.printStackTrace();
 	}finally{
 		bis.close();
-		os.close();
-	
+		os.close();	
 	}
 	}
 	
