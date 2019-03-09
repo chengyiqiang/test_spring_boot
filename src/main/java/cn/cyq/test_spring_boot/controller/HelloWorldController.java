@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/xx")
 public class HelloWorldController {
-	
+	int[] ws;
+
+
+
 	@RequestMapping("/123")
 	public String business123(){
 		return "123respone";

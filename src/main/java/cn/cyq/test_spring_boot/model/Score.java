@@ -8,6 +8,7 @@ public class Score {
 	private String math;
 	private String english;
 	private String chinese;
+
 	public String getMath() {
 		return math;
 	}
