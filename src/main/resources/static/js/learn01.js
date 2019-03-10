@@ -36,3 +36,4 @@ function getInterval(){
     alert(timer);
 }
 
+
